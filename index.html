@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fifth Element | Premium Creative Agency</title>
+    <meta name="description" content="The Fifth Element is a premium luxury creative agency specializing in brand strategy, content marketing, and digital growth.">
+    <meta name="keywords" content="creative agency, luxury branding, marketing strategy, social media, brand design">
+    <meta name="author" content="The Fifth Element">
+    <meta property="og:title" content="The Fifth Element | Premium Creative Agency">
+    <meta property="og:description" content="A premium luxury creative agency specializing in high-end brand experiences.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="new logo without bg.png">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.292.0/dist/umd/lucide.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="pt-0">
+
+    <!-- ═══════════════════════════════════════════════════════
+         NOTIFICATION BANNER
+    ═══════════════════════════════════════════════════════ -->
+    <div id="notification-banner"
+         class="fixed top-0 w-full h-[32px] z-[200] bg-[#C8A96A]/90 text-[#0B0B0B] flex items-center justify-center gap-3 cursor-pointer transition-all hover:bg-white backdrop-blur-md hidden">
+        <span class="luxury-caption text-[9px] font-black tracking-[0.15em] animate-pulse">Announcement</span>
+        <p class="text-[10px] font-bold uppercase tracking-tight"></p>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+    </div>
+
+    <!-- Background Ambient Lighting -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-20%] left-[-15%] w-[70vw] h-[70vw] bg-[#7B7254]/15 blur-[220px] rounded-full"></div>
+        <div class="absolute bottom-[-15%] right-[-10%] w-[65vw] h-[65vw] bg-[#C8A96A]/10 blur-[200px] rounded-full"></div>
+    </div>
+
+    <!-- Floating Glass Navigation -->
+    <nav id="navbar" class="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-7xl z-[100]">
+        <div class="flex justify-between items-center px-6 py-4 bg-[#0B0B0B]/70 backdrop-blur-xl rounded-[24px] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+            <div class="cursor-pointer flex items-center" onclick="router.navigate('home')">
+                <img src="new logo without bg.png" alt="The Fifth Element" class="nav-logo h-8 md:h-10">
+            </div>
+            <div class="flex items-center gap-6 md:gap-8">
+                <div class="hidden lg:flex items-center gap-1">
+                    <button onclick="router.navigate('home')"       class="nav-glass-btn" id="link-home">Home</button>
+                    <button onclick="router.navigate('about')"      class="nav-glass-btn" id="link-about">About</button>
+                    <button onclick="router.navigate('services')"   class="nav-glass-btn" id="link-services">Services</button>
+                    <button onclick="router.navigate('journal')"    class="nav-glass-btn" id="link-journal">Journal</button>
+                    <button onclick="router.navigate('contact')"    class="nav-glass-btn" id="link-contact">Contact</button>
+                </div>
+                <button onclick="router.navigate('contact')" class="hidden sm:flex premium-btn-inquiry magnetic-btn">
+                    Let's Work <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="lg:hidden w-10 h-10 flex items-center justify-center text-[#F5F3EF] hover:text-[#C8A96A] transition-all">
+                    <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MOBILE MENU OVERLAY
+    ═══════════════════════════════════════════════════════ -->
+    <div id="mobileMenu" class="fixed inset-0 z-[150] bg-[#0B0B0B]/98 backdrop-blur-2xl lg:hidden flex-col items-center justify-center gap-8 hidden animate-fade-in">
+        <button onclick="toggleMobileMenu()" class="absolute top-8 right-8 w-12 h-12 glass rounded-full flex items-center justify-center text-[#C8A96A] hover:bg-white/10 transition-all">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="flex flex-col items-center gap-10 luxury-caption text-white/60">
+            <button id="link-mobile-home"       onclick="showPageMobile('home')"       class="nav-link-mobile hover:text-[#C8A96A] transition-all">Home</button>
+            <button id="link-mobile-about"      onclick="showPageMobile('about')"      class="nav-link-mobile hover:text-[#C8A96A] transition-all">About Us</button>
+
+            <button id="link-mobile-services"   onclick="showPageMobile('services')"   class="nav-link-mobile hover:text-[#C8A96A] transition-all">Services</button>
+            <button id="link-mobile-journal"    onclick="showPageMobile('journal')"    class="nav-link-mobile hover:text-[#C8A96A] transition-all">Journal</button>
+            <button id="link-mobile-jobs"       onclick="showPageMobile('jobs')"       class="nav-link-mobile hover:text-[#C8A96A] transition-all">Careers</button>
+            <button id="link-mobile-contact"    onclick="showPageMobile('contact')"    class="nav-link-mobile hover:text-[#C8A96A] transition-all font-extrabold text-[#C8A96A]">Inquiry</button>
+        </div>
+        <div class="mt-12 flex gap-6">
+            <a href="https://www.instagram.com/tfeandco/" target="_blank" class="social-icon w-12 h-12"><i class="bx bxl-instagram text-2xl"></i></a>
+            <a href="https://linkedin.com/company/tfe/" target="_blank" class="social-icon w-12 h-12"><i class="bx bxl-linkedin text-2xl"></i></a>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MAIN PAGE MOUNT POINT
+         All page content is injected here by router.js
+    ═══════════════════════════════════════════════════════ -->
+    <div class="relative z-10">
+        <div id="app" style="transition: opacity 0.2s ease;">
+            <!-- Pages load here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-12 mb-24">
+                <div class="flex flex-col items-center md:items-start gap-6">
+                    <img src="new logo without bg.png" alt="The Fifth Element" class="footer-logo h-12 w-auto">
+                    <p class="text-[#B5B2AC] max-w-sm text-center md:text-left">A premium creative agency crafting high-end brand experiences.</p>
+                </div>
+                <div class="flex gap-8">
+                    <a href="https://www.instagram.com/tfeandco/" target="_blank" class="icon-premium text-2xl"><i class="bx bxl-instagram"></i></a>
+                    <a href="https://linkedin.com/company/tfe/" target="_blank" class="icon-premium text-2xl"><i class="bx bxl-linkedin"></i></a>
+                    <a href="mailto:thefifthelementandco@gmail.com" class="icon-premium text-2xl"><i class="bx bx-envelope"></i></a>
+                </div>
+            </div>
+            <div class="section-divider mb-12"></div>
+            <p class="luxury-caption text-center text-[#B5B2AC]/60">© 2026 The Fifth Element. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════
+         GLOBAL OVERLAYS  (modals, booking bar, easter egg)
+         These persist across all page navigations.
+    ═══════════════════════════════════════════════════════ -->
+
+
+
+    <!-- Video Hover Fullscreen Overlay -->
+    <div id="videoHoverOverlay" class="fixed inset-0 bg-black/95 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center">
+        <video id="videoHoverOverlayPlayer" class="w-full h-full object-contain" muted loop playsinline></video>
+    </div>
+
+    <!-- Founder / Portfolio Modal -->
+    <div id="founderModal" class="modal">
+        <div class="modal-overlay" onclick="closeFounderModal()"></div>
+        <div class="modal-content">
+            <div class="p-10 md:p-16">
+                <button onclick="closeFounderModal()" class="absolute top-8 right-8 w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                <div id="modalBody"><!-- Injected by JS --></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         SCRIPTS  (load order matters)
+    ═══════════════════════════════════════════════════════ -->
+    <!-- 1. Data & defaults (must be first — other modules depend on it) -->
+    <script src="js/data.js"></script>
+
+    <!-- 2. Router (must be before nav so showPage shim is available) -->
+    <script src="js/router.js"></script>
+
+    <!-- 3. Nav helpers (toggleMobileMenu, showPageMobile, scroll effect) -->
+    <script src="js/nav.js"></script>
+
+    <!-- 4. Email (EmailJS) -->
+    <script src="js/email.js"></script>
+
+    <!-- 7. Content loaders (loadInfluencers, etc.) -->
+    <script src="js/content.js"></script>
+
+    <!-- 7. Animations & easter eggs -->
+    <script src="js/animations.js"></script>
+
+</body>
+</html>

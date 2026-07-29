@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fifth Element Admin | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="min-h-screen bg-[#000B3D]">
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-blue-600/10 blur-[180px] rounded-full"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-[#D4AF37]/5 blur-[180px] rounded-full"></div>
+    </div>
+    
+    <div class="flex min-h-screen relative z-10">
+        <aside id="sidebar" class="w-64 glass border-r border-white/10 p-6 fixed h-full hidden lg:flex flex-col">
+            <div class="mb-12">
+                <div class="flex items-center gap-4 mb-8">
+                    <img src="new logo without bg.png" alt="The Fifth Element Logo" class="h-10 w-auto">
+                </div>
+                <div class="text-left">
+                    <h1 class="text-lg font-black uppercase tracking-tight leading-none mb-1">Admin Panel</h1>
+                    <div class="flex items-center gap-2">
+                        <p class="text-[#D4AF37] luxury-caption text-[8px]">the fifth element</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="space-y-3 flex-1 overflow-y-auto">
+                <button onclick="showSection('influencers')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-influencers">
+                    <i class="bx bx-user text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Influencers</span>
+                </button>
+
+                <button onclick="showSection('founders')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-founders">
+                    <i class="bx bx-group text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Founder</span>
+                </button>
+                <button onclick="showSection('faces')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-faces">
+                    <i class="bx bx-smile text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">The Faces</span>
+                </button>
+                <button onclick="showSection('careers')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-careers">
+                    <i class="bx bx-briefcase text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Careers</span>
+                </button>
+                <button onclick="showSection('announcements')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-announcements">
+                    <i class="bx bx-bell text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Announcements</span>
+                </button>
+                <button onclick="showSection('journals')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-journals">
+                    <i class="bx bx-book text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">The Journal</span>
+                </button>
+            </nav>
+            
+            <div class="mt-6 flex-shrink-0">
+                <button onclick="logout()" class="w-full btn-hover bg-white/5 border border-white/10 px-5 py-4 rounded-[20px] flex items-center justify-center gap-3 text-white/60 hover:text-white transition-all">
+                    <i class="bx bx-log-out"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <main class="flex-1 lg:ml-64 p-6 lg:p-12">
+            <div class="flex justify-between items-center mb-12">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight" id="section-title">Influencers</h1>
+                    <p class="text-white/40 luxury-caption text-[11px] mt-2" id="section-subtitle">manage your creators</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="openModal('add-influencer')" class="btn-hover bg-[#D4AF37] text-[#000B3D] px-6 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 whitespace-nowrap" id="add-btn">
+                        <i class="bx bx-plus"></i>
+                        Add Influencer
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="lg:hidden glass w-12 h-12 rounded-full flex items-center justify-center text-[#D4AF37]">
+                        <i class="bx bx-menu text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <section id="influencers-section" class="space-y-8">
+                <div id="influencers-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+            
+
+            
+            <section id="founders-section" class="space-y-8 hidden">
+                <div id="founders-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+            
+            <section id="faces-section" class="space-y-8 hidden">
+                <div id="faces-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+            
+            <section id="careers-section" class="space-y-8 hidden">
+                <div id="careers-list" class="grid grid-cols-1 gap-8"></div>
+            </section>
+            
+            <section id="announcements-section" class="space-y-8 hidden">
+                <div id="announcements-list" class="grid grid-cols-1 gap-8"></div>
+            </section>
+            
+            <section id="journals-section" class="space-y-8 hidden">
+                <div id="journals-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="mobileMenu" class="fixed inset-0 z-50 hidden lg:hidden">
+        <div class="absolute inset-0 bg-[#000B3D]/90 backdrop-blur-xl" onclick="toggleMobileMenu()"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-64 glass border-r border-white/10 p-6">
+            <div class="flex items-center justify-between mb-12">
+                <div class="flex items-center gap-4">
+                    <img src="new logo without bg.png" alt="Logo" class="h-10 w-auto">
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-white/60">
+                    <i class="bx bx-x text-2xl"></i>
+                </button>
+            </div>
+            <nav class="space-y-3">
+                <button onclick="showSection('influencers'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-mobile-influencers">
+                    <i class="bx bx-user text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Influencers</span>
+                </button>
+
+                <button onclick="showSection('founders'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-founders">
+                    <i class="bx bx-group text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Founder</span>
+                </button>
+                <button onclick="showSection('faces'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-faces">
+                    <i class="bx bx-smile text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">The Faces</span>
+                </button>
+                <button onclick="showSection('careers'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-careers">
+                    <i class="bx bx-briefcase text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Careers</span>
+                </button>
+                <button onclick="showSection('announcements'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-announcements">
+                    <i class="bx bx-bell text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Announcements</span>
+                </button>
+                <button onclick="showSection('journals'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-journals">
+                    <i class="bx bx-book text-xl"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">The Journal</span>
+                </button>
+            </nav>
+            <div class="absolute bottom-6 left-6 right-6">
+                <button onclick="logout()" class="w-full btn-hover bg-white/5 border border-white/10 px-5 py-4 rounded-[20px] flex items-center justify-center gap-3 text-white/60 hover:text-white">
+                    <i class="bx bx-log-out"></i>
+                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="influencer-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-4xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="modal-title">Add Influencer</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <form id="influencer-form" class="space-y-6">
+                            <input type="hidden" id="influencer-id">
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
+                                <input type="text" id="influencer-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Username</label>
+                                <input type="text" id="influencer-username" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Followers</label>
+                                <input type="text" id="influencer-followers" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., 100K">
+                            </div>
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Bio</label>
+                                <textarea id="influencer-bio" rows="3" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Instagram Link</label>
+                                <input type="url" id="influencer-link" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="https://instagram.com/...">
+                            </div>
+                            <div>
+                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Profile Image</label>
+                                <input type="file" id="influencer-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                            </div>
+                            <div class="flex gap-4 pt-4">
+                                <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                                <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] mb-6">Live Preview</h3>
+                        <div id="influencer-preview" class="influencer-card glass rounded-[40px] p-8 border border-white/5 flex flex-col">
+                            <div class="relative overflow-hidden rounded-[30px] w-48 h-48 glass border border-white/10 mb-8 mx-auto">
+                                <img id="preview-image" src="" alt="Preview" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-grow text-center">
+                                <h3 class="text-3xl font-bold mb-2 tracking-tight uppercase" id="preview-name">Your Name</h3>
+                                <p class="text-[#D4AF37] luxury-caption text-[11px] font-bold mb-2 tracking-[0.2em]">Instagram</p>
+                                <p class="text-[#D4AF37] font-bold text-lg mb-4"><span id="preview-followers">0</span> <span class="text-white/40 luxury-caption text-[10px] tracking-widest ml-1">Followers</span></p>
+                                <p class="text-white/40 text-sm leading-relaxed mb-8 font-medium line-clamp-2 overflow-hidden text-ellipsis" id="preview-bio">Your bio will appear here...</p>
+                            </div>
+                            <div class="mt-auto flex justify-center">
+                                <div class="btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 shadow-lg">
+                                    <i class="bx bxl-instagram text-lg"></i>
+                                    View Profile
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <div id="founder-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="founder-modal-title">Add Founder</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <form id="founder-form" class="space-y-6">
+                    <input type="hidden" id="founder-id">
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
+                        <input type="text" id="founder-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Title</label>
+                        <input type="text" id="founder-title" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="Co-Founder, The Fifth Element">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Image</label>
+                        <input type="file" id="founder-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="face-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="face-modal-title">Add Face</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <form id="face-form" class="space-y-6">
+                    <input type="hidden" id="face-id">
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
+                        <input type="text" id="face-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Role</label>
+                        <input type="text" id="face-role" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Team Member">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Image</label>
+                        <input type="file" id="face-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="career-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="career-modal-title">Add Career</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <form id="career-form" class="space-y-6">
+                    <input type="hidden" id="career-id">
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Position</label>
+                        <input type="text" id="career-position" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Graphic Designer">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Contact Email</label>
+                        <input type="email" id="career-email" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="aryapawar@thefifthelement.in">
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="announcement-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="announcement-modal-title">Add Announcement</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <form id="announcement-form" class="space-y-6">
+                    <input type="hidden" id="announcement-id">
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Announcement Text</label>
+                        <input type="text" id="announcement-text" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none mb-4">
+                        
+
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="journal-modal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
+        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
+            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase mb-2" id="journal-modal-title">Add Journal</h2>
+                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
+                        <i class="bx bx-x text-3xl"></i>
+                    </button>
+                </div>
+                
+                <form id="journal-form" class="space-y-6">
+                    <input type="hidden" id="journal-id">
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Title</label>
+                        <input type="text" id="journal-title" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Read Time</label>
+                            <input type="text" id="journal-read-time" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="3 min read">
+                        </div>
+                        <div>
+                            <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Link</label>
+                            <input type="url" id="journal-link" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Description</label>
+                        <input type="text" id="journal-description" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Image</label>
+                        <input type="file" id="journal-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
+                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <!-- Shared data module (default data & storage keys) -->
+    <script src="js/data.js"></script>
+    <!-- Admin panel logic -->
+    <script src="admin.js"></script>
+</body>
+
+</html>

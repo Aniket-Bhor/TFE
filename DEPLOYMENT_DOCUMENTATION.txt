@@ -1,0 +1,97 @@
+================================================================================
+                 THE FIFTH ELEMENT — PRODUCTION DEPLOYMENT GUIDE
+================================================================================
+
+This document details the production audit findings, configuration guidelines,
+credentials, and steps required to push the project to GitHub and deploy it
+successfully on Vercel.
+
+--------------------------------------------------------------------------------
+1. PROJECT STRUCTURE AUDIT
+--------------------------------------------------------------------------------
+The project is a lightweight Express.js backend coupled with a static HTML SPA
+frontend. 
+- Backend server: server.js (loads environment variables from .env during local dev)
+- Frontend client: index.html (serves SPA page fragments dynamically from /pages/)
+- Admin Panel: login.html / admin.html (handles CRUD operations on the database)
+- Routing & Builds: vercel.json (routes /api/* to the serverless function entry)
+- Serverless entry: api/index.js
+
+*Cleaned up during audit:*
+- Deleted data.js (unused root duplicate).
+- Deleted unused assets herwamissindia.png and mountain.jpg.
+- Completely removed the events, ticketing, bookings, and Razorpay modules from the
+  backend code (server.js) and frontend router (js/router.js).
+- Removed the razorpay package from package.json dependencies.
+- Rebranded all local storage cache keys to "tfe_" and updated fallback database URL
+  references to "the-fifth-element-default-rtdb".
+
+--------------------------------------------------------------------------------
+2. REQUIRED ENVIRONMENT VARIABLES
+--------------------------------------------------------------------------------
+Configure these variables in your local .env file (for local development)
+and in your Vercel Project Dashboard (under Settings -> Environment Variables):
+
+PORT
+  - Description: The port number the Express server listens to.
+  - Local default: 3000
+  - Vercel: Automatically managed, no need to configure.
+
+FIREBASE_DATABASE_URL
+  - Description: URL of your Firebase Realtime Database.
+  - Format: https://your-project-id-default-rtdb.firebaseio.com/
+
+FIREBASE_SERVICE_ACCOUNT
+  - Description: Service Account private key JSON for credential authentication.
+  - Format: A single-line JSON string containing your service account credentials:
+    {"type":"service_account","project_id":"...","private_key":"...","client_email":"..."}
+  - Note: If empty, the server falls back to the unauthenticated REST API.
+
+--------------------------------------------------------------------------------
+3. ADMIN DASHBOARD CREDENTIALS
+--------------------------------------------------------------------------------
+The Admin Panel login (login.html) uses client-side SHA-256 password hashing.
+- Username: admin
+- Default Password: thefifthelement123
+
+To change the administrative password:
+1. Hash your new password using SHA-256 (e.g. using online utilities or node crypto).
+2. Open login.js (line 4) and replace the hash value in ADMIN_CREDENTIALS.passwordHash
+   with your new hash:
+   passwordHash: 'your_sha256_hash_here'
+
+--------------------------------------------------------------------------------
+4. GITHUB AND VERCEL DEPLOYMENT CHECKLIST
+--------------------------------------------------------------------------------
+Follow these steps to deploy the application for the first time:
+
+[ ] Setup Firebase Database
+    - Create a Firebase Project on the Firebase Console.
+    - Provision a Realtime Database.
+    - Set Database rules (read/write enabled for Admin SDK, restricted for public).
+    - Generate a new Private Key in Project Settings -> Service Accounts.
+    - Compact the downloaded JSON into a single-line string.
+
+[ ] Push codebase to GitHub
+    - Initialize a Git repository locally: git init
+    - Ensure .env and node_modules are ignored (verified in .gitignore).
+    - Stage and commit files: git add . && git commit -m "Initial commit"
+    - Push to your remote GitHub repository.
+
+[ ] Deploy to Vercel
+    - Import your GitHub repository into Vercel.
+    - Frame Preset: Set to "Other" (Vercel will detect package.json and vercel.json).
+    - Root Directory: Set to "./".
+    - Add Environment Variables (FIREBASE_DATABASE_URL, FIREBASE_SERVICE_ACCOUNT).
+    - Deploy!
+
+--------------------------------------------------------------------------------
+5. KNOWN INTEGRATIONS & NOTES
+--------------------------------------------------------------------------------
+- Events & Ticketing Module:
+  Following the production audit, the events and ticketing module was completely
+  archived. There are no active API routes, Razorpay SDK requirements, or client
+  dependencies remaining in the codebase.
+- Local Database Seeding:
+  If the database is empty upon startup, the server automatically seeds the
+  influencers, founders, and careers default data.

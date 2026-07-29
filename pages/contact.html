@@ -1,0 +1,46 @@
+<!-- ═══════════════════════════════════════════════════════
+     CONTACT PAGE  —  pages/contact.html
+═══════════════════════════════════════════════════════ -->
+<div class="px-6 py-40">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-24">
+            <div>
+                <span class="text-[#C8A96A] luxury-caption text-[14px] mb-8 block font-bold">New Business</span>
+                <h2 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-10 lowercase leading-none">get in <span class="text-white/20">touch.</span></h2>
+                <div class="space-y-12 mt-20">
+                    <div>
+                        <p class="luxury-caption text-[10px] text-white/40 mb-2">Direct Inquiry</p>
+                        <a href="mailto:thefifthelementandco@gmail.com" class="text-2xl font-bold hover:text-[#C8A96A] transition-all">thefifthelementandco@gmail.com</a>
+                    </div>
+                    <div>
+                        <p class="luxury-caption text-[10px] text-white/40 mb-2">Instagram</p>
+                        <div class="flex items-center gap-4">
+                            <a href="https://www.instagram.com/tfeandco/" target="_blank" class="icon-premium"><i class="bx bxl-instagram text-3xl"></i></a>
+                            <a href="https://www.instagram.com/tfeandco/" target="_blank" class="text-2xl font-bold hover:text-[#C8A96A] transition-all">@tfeandco</a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="luxury-caption text-[10px] text-white/40 mb-2">LinkedIn</p>
+                        <div class="flex items-center gap-4">
+                            <a href="https://linkedin.com/company/tfe/" target="_blank" class="icon-premium"><i class="bx bxl-linkedin text-3xl"></i></a>
+                            <a href="https://linkedin.com/company/tfe/" target="_blank" class="text-2xl font-bold hover:text-[#C8A96A] transition-all">The Fifth Element</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass p-16 rounded-[60px] border border-white/10 backdrop-blur-3xl shadow-2xl">
+                <div id="form-messages" class="mb-8"></div>
+                <form id="inquiryForm" onsubmit="handleInquiry(event)" class="space-y-12">
+                    <input type="text" name="name" id="inquiryName" required class="w-full bg-transparent input-focus py-4 text-xl outline-none placeholder:text-white/10" placeholder="Your Name">
+                    <input type="email" name="email" id="inquiryEmail" required class="w-full bg-transparent input-focus py-4 text-xl outline-none placeholder:text-white/10" placeholder="Company Email">
+                    <textarea name="vision" id="inquiryVision" required class="w-full bg-transparent input-focus py-4 text-xl outline-none h-32 resize-none placeholder:text-white/10" placeholder="The Vision"></textarea>
+                    <button type="submit" id="submitBtn" class="w-full bg-white text-[#000B3D] py-5 rounded-full luxury-caption text-[12px] font-extrabold btn-hover flex items-center justify-center gap-4">
+                        <span id="submitText">Send Proposal</span>
+                        <i id="submitSpinner" class="fas fa-spinner fa-spin hidden"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

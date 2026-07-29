@@ -1,0 +1,196 @@
+
+<!-- Premium Hero Section -->
+<section id="hero-section">
+    <div class="hero-background"></div>
+    <div class="hero-cinematic-overlay"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-radial-light"></div>
+
+    <div class="hero-content">
+        <div class="hero-tagline reveal">
+            <span class="luxury-caption text-[#C8A96A]">The Fifth Element</span>
+        </div>
+        <h1 class="hero-title reveal">
+            we craft premium<br>
+            <span class="highlight">brand experiences</span>
+        </h1>
+        <p class="hero-description reveal">
+            a luxury creative agency specializing in brand strategy, content marketing, and digital growth for modern brands.
+        </p>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal">
+            <button onclick="router.navigate('services')" class="premium-btn premium-btn-primary magnetic-btn w-full sm:w-auto">
+                our services <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <button onclick="router.navigate('about')" class="premium-btn premium-btn-secondary w-full sm:w-auto">
+                about us
+            </button>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-indicator-line"></div>
+        <i data-lucide="move-down" class="scroll-indicator-arrow w-5 h-5"></i>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-20 reveal">
+            <span class="luxury-caption text-[#C8A96A] mb-4 block">what we do</span>
+            <h2 class="text-4xl md:text-6xl font-bold">our expertise</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="premium-card reveal">
+                <div class="w-16 h-16 rounded-2xl bg-[#C8A96A]/10 flex items-center justify-center mb-6">
+                    <i data-lucide="palette" class="w-8 h-8 text-[#C8A96A]"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">branding & identity</h3>
+                <p class="text-[#B5B2AC]">crafting unique brand identities that stand out and resonate with your audience.</p>
+            </div>
+            <div class="premium-card reveal">
+                <div class="w-16 h-16 rounded-2xl bg-[#C8A96A]/10 flex items-center justify-center mb-6">
+                    <i data-lucide="share-2" class="w-8 h-8 text-[#C8A96A]"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">social media strategy</h3>
+                <p class="text-[#B5B2AC]">strategic content plans that build community and drive engagement.</p>
+            </div>
+            <div class="premium-card reveal">
+                <div class="w-16 h-16 rounded-2xl bg-[#C8A96A]/10 flex items-center justify-center mb-6">
+                    <i data-lucide="trending-up" class="w-8 h-8 text-[#C8A96A]"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">digital marketing</h3>
+                <p class="text-[#B5B2AC]">data-driven campaigns that deliver real results and measurable growth.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How We Work Timeline -->
+<section id="process-section" class="py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Timeline -->
+        <div id="timeline-container" class="relative">
+            <!-- Heading -->
+            <div class="text-center mb-24 reveal">
+                <span class="luxury-caption text-[#C8A96A] mb-4 block">how we work</span>
+                <h2 class="text-4xl md:text-6xl font-bold">our process</h2>
+            </div>
+
+            <!-- Timeline Track -->
+            <div class="absolute left-0 right-0 top-[260px] md:top-[280px] h-1 bg-[#F5F3EF]/10 z-0"></div>
+            <!-- Timeline Progress -->
+            <div id="timeline-progress-fill" class="absolute left-0 top-[260px] md:top-[280px] h-1 bg-[#C8A96A] z-10" style="width:0%"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-20">
+                <!-- Step 1 -->
+                <div class="timeline-step flex flex-col items-center" data-step="1">
+                    <div class="timeline-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0B0B0B] border-4 border-[#F5F3EF]/20 flex items-center justify-center relative mb-8">
+                        <div class="timeline-glow absolute inset-0 bg-[#C8A96A]/20 rounded-full blur-xl opacity-0"></div>
+                        <span class="text-xl md:text-2xl font-bold text-[#F5F3EF]/60">01</span>
+                    </div>
+                    <div class="timeline-card text-center">
+                        <h4 class="text-xl font-bold mb-3">understand</h4>
+                        <p class="text-[#B5B2AC]">brand, audience, context</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="timeline-step flex flex-col items-center" data-step="2">
+                    <div class="timeline-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0B0B0B] border-4 border-[#F5F3EF]/20 flex items-center justify-center relative mb-8">
+                        <div class="timeline-glow absolute inset-0 bg-[#C8A96A]/20 rounded-full blur-xl opacity-0"></div>
+                        <span class="text-xl md:text-2xl font-bold text-[#F5F3EF]/60">02</span>
+                    </div>
+                    <div class="timeline-card text-center">
+                        <h4 class="text-xl font-bold mb-3">define</h4>
+                        <p class="text-[#B5B2AC]">positioning, goals, direction</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="timeline-step flex flex-col items-center" data-step="3">
+                    <div class="timeline-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0B0B0B] border-4 border-[#F5F3EF]/20 flex items-center justify-center relative mb-8">
+                        <div class="timeline-glow absolute inset-0 bg-[#C8A96A]/20 rounded-full blur-xl opacity-0"></div>
+                        <span class="text-xl md:text-2xl font-bold text-[#F5F3EF]/60">03</span>
+                    </div>
+                    <div class="timeline-card text-center">
+                        <h4 class="text-xl font-bold mb-3">create</h4>
+                        <p class="text-[#B5B2AC]">strategy-led creative</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="timeline-step flex flex-col items-center" data-step="4">
+                    <div class="timeline-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0B0B0B] border-4 border-[#F5F3EF]/20 flex items-center justify-center relative mb-8">
+                        <div class="timeline-glow absolute inset-0 bg-[#C8A96A]/20 rounded-full blur-xl opacity-0"></div>
+                        <span class="text-xl md:text-2xl font-bold text-[#F5F3EF]/60">04</span>
+                    </div>
+                    <div class="timeline-card text-center">
+                        <h4 class="text-xl font-bold mb-3">execute</h4>
+                        <p class="text-[#B5B2AC]">with precision</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="timeline-step flex flex-col items-center" data-step="5">
+                    <div class="timeline-circle w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0B0B0B] border-4 border-[#F5F3EF]/20 flex items-center justify-center relative mb-8">
+                        <div class="timeline-glow absolute inset-0 bg-[#C8A96A]/20 rounded-full blur-xl opacity-0"></div>
+                        <span class="text-xl md:text-2xl font-bold text-[#F5F3EF]/60">05</span>
+                    </div>
+                    <div class="timeline-card text-center">
+                        <h4 class="text-xl font-bold mb-3">refine</h4>
+                        <p class="text-[#B5B2AC]">based on results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Work Preview -->
+<section class="py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+            <div class="reveal">
+                <span class="luxury-caption text-[#C8A96A] mb-4 block">featured work</span>
+                <h2 class="text-4xl md:text-6xl font-bold">selected projects</h2>
+            </div>
+            <button onclick="router.navigate('journal')" class="premium-btn premium-btn-secondary reveal">
+                view all work <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="luxury-image-container rounded-3xl overflow-hidden reveal h-[400px]">
+                <video src="Brand Redesign.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+                <div class="luxury-image-overlay"></div>
+                <div class="absolute bottom-8 left-8 right-8 z-20">
+                    <h3 class="text-2xl font-bold mb-2">brand redesign</h3>
+                    <p class="text-[#B5B2AC]">premium luxury brand</p>
+                </div>
+            </div>
+            <div class="luxury-image-container rounded-3xl overflow-hidden reveal h-[400px]">
+                <video src="music video.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+                <div class="luxury-image-overlay"></div>
+                <div class="absolute bottom-8 left-8 right-8 z-20">
+                    <h3 class="text-2xl font-bold mb-2">music video</h3>
+                    <p class="text-[#B5B2AC]">visual storytelling</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-32 px-6">
+    <div class="max-w-4xl mx-auto text-center reveal">
+        <span class="luxury-caption text-[#C8A96A] mb-6 block">ready to elevate?</span>
+        <h2 class="text-4xl md:text-6xl font-bold mb-8">let's create something exceptional together</h2>
+        <p class="text-lg text-[#B5B2AC] mb-12 max-w-2xl mx-auto">
+            we partner with ambitious brands to craft premium experiences that drive growth and build lasting connections.
+        </p>
+        <button onclick="router.navigate('contact')" class="premium-btn premium-btn-primary magnetic-btn">
+            start a project <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+</section>
