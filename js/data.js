@@ -12,7 +12,6 @@ const STORAGE_KEYS = {
     INFLUENCERS:   'tfe_influencers',
     FOUNDERS:      'tfe_founders',
     FACES:         'tfe_faces',
-    CAREERS:       'tfe_careers',
     ANNOUNCEMENTS: 'tfe_announcements',
     JOURNALS:      'tfe_journals',
     SESSION:       'tfe_admin_session',
@@ -43,10 +42,6 @@ function getDefaultFounders() {
 }
 
 function getDefaultFaces() {
-    return [];
-}
-
-function getDefaultCareers() {
     return [];
 }
 

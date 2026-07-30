@@ -24,7 +24,6 @@ const PAGE_MAP = {
     'about':         'pages/about.html',
     'services':      'pages/services.html',
     'journal':       'pages/journal.html',
-    'jobs':          'pages/jobs.html',
     'contact':       'pages/contact.html',
 };
 
@@ -183,9 +182,7 @@ const router = {
                 if (typeof loadJournals === 'function') loadJournals();
                 break;
 
-            case 'jobs':
-                if (typeof loadCareers === 'function') loadCareers();
-                break;
+
 
             case 'contact':
                 // EmailJS is already initialised globally — nothing extra needed.

@@ -187,7 +187,7 @@ function renderFounder(founders) {
                 <div class="absolute inset-0 bg-gradient-to-t from-[#000B3D]/40 to-transparent"></div>
             </div>
             <div class="text-center">
-                <h3 class="text-3xl font-bold mb-1">${fdr.name}</h3>
+                <h3 class="text-3xl font-bold mb-1 uppercase">${(fdr.name || '').toUpperCase()}</h3>
                 <p class="luxury-caption text-[11px] text-[#D4AF37]">${fdr.title}</p>
             </div>
         </div>
@@ -219,39 +219,6 @@ function renderFaces(faces) {
     `).join('');
 }
 
-/* ── Careers ─────────────────────────────────────────────────── */
-
-async function loadCareers() {
-    const careers = await fetchCollection('careers', getDefaultCareers);
-    renderCareers(careers);
-}
-
-function renderCareers(careers) {
-    const container = document.getElementById('careers-grid');
-    if (!container) return;
-
-    if (careers.length === 0) {
-        container.innerHTML = `
-            <div class="col-span-full glass rounded-[40px] p-12 border border-white/10 text-center">
-                <p class="text-xl text-white/40">No job openings right now, check back later!</p>
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = careers.map(c => `
-        <div onclick="window.location.href='mailto:${c.email}?subject=Job Application: ${encodeURIComponent(c.position)}&body=Hello, I would like to apply for the ${encodeURIComponent(c.position)} position. Please find my resume attached.'"
-             class="glass p-12 rounded-[40px] flex flex-col md:flex-row justify-between items-center group hover:border-[#D4AF37]/50 transition-all cursor-pointer border border-white/5">
-            <h3 class="text-3xl font-bold">${c.position}</h3>
-            <div class="flex items-center gap-6">
-                <span class="luxury-caption text-[11px] text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-all">Mail your resume</span>
-                <button class="bg-white/10 p-6 rounded-full group-hover:bg-[#D4AF37] transition-all"><i data-lucide="mail"></i></button>
-            </div>
-        </div>
-    `).join('');
-
-    if (window.lucide) lucide.createIcons();
-}
 
 
 

@@ -15,7 +15,6 @@
 let influencers = [];
 let founders = [];
 let faces = [];
-let careers = [];
 let announcements = [];
 let journals = [];
 let currentSection = 'influencers';
@@ -112,16 +111,11 @@ async function loadFaces() {
     faces = await apiGet('faces', getDefaultFaces);
 }
 
-async function loadCareers() {
-    careers = await apiGet('careers', getDefaultCareers);
-}
-
 async function loadData() {
     await Promise.all([
         loadInfluencers(),
         loadFounder(),
         loadFaces(),
-        loadCareers(),
         loadAnnouncements(),
         loadJournals(),
     ]);
@@ -388,50 +382,10 @@ function renderFaces() {
     `).join('');
 }
 
-function renderCareers() {
-    const container = document.getElementById('careers-list');
-    if (!container) return;
-    
-    if (careers.length === 0) {
-        container.innerHTML = `
-            <div class="col-span-full glass rounded-[40px] p-12 border border-white/10 text-center">
-                <div class="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-8">
-                    <i class="bx bx-briefcase text-5xl text-white/30"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4">No Careers Yet</h3>
-                <p class="text-white/40 mb-8">Get started by adding your first job post</p>
-                <button onclick="openModal('add-career')" class="btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-full luxury-caption text-[10px] font-extrabold">
-                    Add First Career
-                </button>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = careers.map(c => `
-        <div class="glass p-12 rounded-[40px] flex flex-col md:flex-row justify-between items-center group hover:border-[#D4AF37]/50 transition-all cursor-pointer border border-white/5 relative overflow-hidden">
-            <h3 class="text-3xl font-bold">${c.position}</h3>
-            <div class="flex items-center gap-6">
-                <div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
-                    <button onclick="event.stopPropagation(); editCareer('${c.id}')" class="w-10 h-10 glass rounded-full flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all backdrop-blur-md border border-white/10">
-                        <i class="bx bx-edit text-lg"></i>
-                    </button>
-                    <button onclick="event.stopPropagation(); deleteCareer('${c.id}')" class="w-10 h-10 glass rounded-full flex items-center justify-center text-red-400 hover:bg-red-500/20 transition-all backdrop-blur-md border border-white/10">
-                        <i class="bx bx-trash text-lg"></i>
-                    </button>
-                </div>
-                <span class="luxury-caption text-[11px] text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-all">Mail your resume</span>
-                <button class="bg-white/10 p-6 rounded-full group-hover:bg-[#D4AF37] transition-all"><i data-lucide="mail"></i></button>
-            </div>
-        </div>
-    `).join('');
-}
-
 function renderAll() {
     renderInfluencers();
     renderFounder();
     renderFaces();
-    renderCareers();
     renderAnnouncements();
     renderJournals();
 }
@@ -439,7 +393,7 @@ function renderAll() {
 function showSection(section) {
     currentSection = section;
 
-    const contentSections = ['influencers', 'founders', 'faces', 'careers', 'announcements', 'journals'];
+    const contentSections = ['influencers', 'founders', 'faces', 'announcements', 'journals'];
     contentSections.forEach(s => {
         const el = document.getElementById(`${s}-section`);
         if (el) el.classList.add('hidden');
@@ -456,7 +410,6 @@ function showSection(section) {
         influencers:   { title: 'Influencers',    subtitle: 'manage your creators',       btn: 'Add Influencer',   action: 'add-influencer' },
         founders:      { title: 'Founder',        subtitle: 'manage your founders',        btn: 'Add Founder',      action: 'add-founder' },
         faces:         { title: 'The Faces',       subtitle: 'the faces behind The Fifth Element', btn: 'Add Face',         action: 'add-face' },
-        careers:       { title: 'Careers',         subtitle: 'manage your job posts',       btn: 'Add Career',       action: 'add-career' },
         announcements: { title: 'Announcements',   subtitle: 'manage your announcements',   btn: 'Add Announcement', action: 'add-announcement' },
         journals:      { title: 'The Journal',     subtitle: 'manage your journal',         btn: 'Add Journal',      action: 'add-journal' },
     };
@@ -490,8 +443,6 @@ function openModal(type) {
         'edit-founder': { modal: 'founder-modal', title: 'Edit Founder' },
         'add-face': { modal: 'face-modal', title: 'Add Face' },
         'edit-face': { modal: 'face-modal', title: 'Edit Face' },
-        'add-career': { modal: 'career-modal', title: 'Add Career' },
-        'edit-career': { modal: 'career-modal', title: 'Edit Career' },
         'add-announcement': { modal: 'announcement-modal', title: 'Add Announcement' },
         'edit-announcement': { modal: 'announcement-modal', title: 'Edit Announcement' },
         'add-journal': { modal: 'journal-modal', title: 'Add Journal' },
@@ -508,8 +459,6 @@ function openModal(type) {
         document.getElementById('founder-modal-title').textContent = config.title;
     } else if (config.modal === 'face-modal') {
         document.getElementById('face-modal-title').textContent = config.title;
-    } else if (config.modal === 'career-modal') {
-        document.getElementById('career-modal-title').textContent = config.title;
     } else if (config.modal === 'announcement-modal') {
         document.getElementById('announcement-modal-title').textContent = config.title;
     } else if (config.modal === 'journal-modal') {
@@ -662,21 +611,6 @@ function editFace(id) {
 
 async function deleteFace(id) {
     await deleteItem('faces', id, faces, renderFaces);
-}
-
-function editCareer(id) {
-    const c = careers.find(x => x.id === id);
-    if (!c) return;
-    
-    document.getElementById('career-id').value = c.id;
-    document.getElementById('career-position').value = c.position;
-    document.getElementById('career-email').value = c.email;
-    
-    openModal('edit-career');
-}
-
-async function deleteCareer(id) {
-    await deleteItem('careers', id, careers, renderCareers);
 }
 
 
@@ -927,34 +861,7 @@ function initForms() {
         });
     }
     
-    const careerForm = document.getElementById('career-form');
-    if (careerForm) {
-        careerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('career-id').value;
-            
-            const data = {
-                id: id || generateId(),
-                position: document.getElementById('career-position').value,
-                email: document.getElementById('career-email').value
-            };
-            
-            try {
-                if (id) {
-                    await apiPut('careers', id, data);
-                    const idx = careers.findIndex(c => c.id === id);
-                    if (idx !== -1) careers[idx] = data;
-                    showToast('Career updated!', 'success');
-                } else {
-                    const created = await apiPost('careers', data);
-                    careers.push(created);
-                    showToast('Career added!', 'success');
-                }
-            } catch (err) { showToast('Save failed: ' + err.message, 'error'); return; }
-            renderCareers();
-            closeModal();
-        });
-    }
+
     
 
 }

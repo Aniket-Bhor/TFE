@@ -163,7 +163,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname)));
 
 /* ── Content CRUD routes ─────────────────────────────────────── */
-const COLLECTIONS = ['influencers', 'founders', 'faces', 'careers', 'announcements', 'journals'];
+const COLLECTIONS = ['influencers', 'founders', 'faces', 'announcements', 'journals'];
 
 COLLECTIONS.forEach(name => {
 
@@ -315,18 +315,7 @@ async function seedDatabaseIfEmpty() {
                 image: 'aryapic.png'
             }
         ],
-        careers: [
-            {
-                id: '1',
-                position: 'Graphic Designer',
-                email: 'aryapawar@thefifthelement.in'
-            },
-            {
-                id: '2',
-                position: 'Video Editor',
-                email: 'aryapawar@thefifthelement.in'
-            }
-        ],
+
         journals: [
             {
                 id: '1',
