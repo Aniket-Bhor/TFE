@@ -9,13 +9,13 @@
 
 /* --- localStorage Keys --- */
 const STORAGE_KEYS = {
-    INFLUENCERS:   'tfe_influencers',
-    FOUNDERS:      'tfe_founders',
-    FACES:         'tfe_faces',
+    INFLUENCERS: 'tfe_influencers',
+    FOUNDERS: 'tfe_founders',
+    FACES: 'tfe_faces',
     ANNOUNCEMENTS: 'tfe_announcements',
-    JOURNALS:      'tfe_journals',
-    SESSION:       'tfe_admin_session',
-    RESET_DONE:    'tfe_admin_reset_done'
+    JOURNALS: 'tfe_journals',
+    SESSION: 'tfe_admin_session',
+    RESET_DONE: 'tfe_admin_reset_done'
 };
 
 /* --- Default Data --- */

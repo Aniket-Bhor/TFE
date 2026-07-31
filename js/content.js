@@ -166,32 +166,38 @@ function renderJournals(journals) {
 
 /* ── Founder ────────────────────────────────────────────────── */
 
+let cachedFounders = [];
+
 async function loadFounder() {
     localStorage.removeItem(STORAGE_KEYS.FOUNDERS); // Clear old cache
     localStorage.removeItem(STORAGE_KEYS.FACES); // Clear old faces cache too
     const founders = await fetchCollection('founders', getDefaultFounders);
-    renderFounder(founders);
+    cachedFounders = founders || [];
+    renderFounder(cachedFounders);
 }
 
 function renderFounder(founders) {
     const container = document.getElementById('founders-grid');
     if (!container) return;
 
-    if (founders.length === 0) { container.innerHTML = ''; return; }
+    if (!founders || founders.length === 0) { container.innerHTML = ''; return; }
 
-    container.innerHTML = founders.map(fdr => `
+    container.innerHTML = founders.map(fdr => {
+        const key = (fdr.id === '1' || (fdr.name && fdr.name.toLowerCase().includes('arya'))) ? 'arya' : fdr.id;
+        return `
         <div class="group cursor-pointer flex flex-col items-center gap-8"
-             onclick="openFounderModal('${fdr.id === '1' ? 'arya' : 'avanti'}')">
+             onclick="openFounderModal('${key}')">
             <div class="relative overflow-hidden rounded-[30px] w-64 h-64 md:w-80 md:h-80 glass border border-white/10 hover:border-[#D4AF37]/50 transition-all duration-500">
-                <img src="${fdr.image || 'placeholder.jpg'}" alt="${fdr.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="${fdr.image || 'aryapic.png'}" alt="${fdr.name || 'Founder'}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#000B3D]/40 to-transparent"></div>
             </div>
             <div class="text-center">
                 <h3 class="text-3xl font-bold mb-1 uppercase">${(fdr.name || '').toUpperCase()}</h3>
-                <p class="luxury-caption text-[11px] text-[#D4AF37]">${fdr.title}</p>
+                <p class="luxury-caption text-[11px] text-[#D4AF37]">${fdr.title || ''}</p>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 /* ── The Faces ───────────────────────────────────────────────── */
@@ -226,7 +232,22 @@ function renderFaces(faces) {
 /* ── Founder & Portfolio Modals ──────────────────────────────── */
 
 function openFounderModal(id) {
-    const data  = founderData[id];
+    let data = typeof founderData !== 'undefined' ? founderData[id] : null;
+
+    if (!data) {
+        const found = cachedFounders.find(f => f.id === id || (f.name && f.name.toLowerCase().includes(id)));
+        if (found) {
+            data = {
+                name: found.name,
+                title: found.title || 'Founder, The Fifth Element',
+                image: found.image || 'aryapic.png',
+                bio: found.bio || (founderData && founderData.arya ? founderData.arya.bio : '')
+            };
+        } else if (typeof founderData !== 'undefined' && founderData.arya) {
+            data = founderData.arya;
+        }
+    }
+
     const modal = document.getElementById('founderModal');
     const body  = document.getElementById('modalBody');
     if (!data || !modal || !body) return;
@@ -234,13 +255,13 @@ function openFounderModal(id) {
     body.innerHTML = `
         <div class="flex flex-col md:flex-row gap-12 items-center md:items-start">
             <div class="w-48 h-48 rounded-[40px] overflow-hidden shadow-2xl border-4 border-[#D4AF37]/20 flex-shrink-0">
-                <img src="${data.image}" class="w-full h-full object-cover">
+                <img src="${data.image || 'aryapic.png'}" class="w-full h-full object-cover" alt="${data.name || 'Founder'}">
             </div>
             <div class="flex-grow">
-                <h2 class="text-4xl font-black uppercase mb-2">${data.name}</h2>
-                <p class="text-[#D4AF37] luxury-caption text-[12px] font-bold mb-10 tracking-[0.2em]">${data.title}</p>
+                <h2 class="text-4xl font-black uppercase mb-2">${data.name || ''}</h2>
+                <p class="text-[#D4AF37] luxury-caption text-[12px] font-bold mb-10 tracking-[0.2em]">${data.title || ''}</p>
                 <div class="h-[1px] bg-white/10 mb-10"></div>
-                ${data.bio}
+                ${data.bio || ''}
             </div>
         </div>
     `;
@@ -251,7 +272,7 @@ function openFounderModal(id) {
 }
 
 function openPortfolioModal(id) {
-    const data  = portfolioData[id];
+    const data  = typeof portfolioData !== 'undefined' ? portfolioData[id] : null;
     const modal = document.getElementById('founderModal');
     const body  = document.getElementById('modalBody');
     if (!data || !modal || !body) return;
@@ -276,6 +297,12 @@ function closeFounderModal() {
     if (modal) modal.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeFounderModal();
+    }
+});
 
 function animateBars() {
     document.querySelectorAll('.bar-fill').forEach(bar => {
