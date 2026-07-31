@@ -31,3 +31,13 @@ search_all_brains.js
 
 # Has its own .git — tracked separately
 website/
+
+# Vercel
+.vercel/
+
+# VS Code
+.vscode/
+
+# Firebase service account files
+*service-account*.json
+firebase-service-account.json

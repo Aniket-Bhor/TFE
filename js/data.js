@@ -9,14 +9,13 @@
 
 /* --- localStorage Keys --- */
 const STORAGE_KEYS = {
-    INFLUENCERS:   'tfe_influencers',
-    FOUNDERS:      'tfe_founders',
-    FACES:         'tfe_faces',
-    CAREERS:       'tfe_careers',
+    INFLUENCERS: 'tfe_influencers',
+    FOUNDERS: 'tfe_founders',
+    FACES: 'tfe_faces',
     ANNOUNCEMENTS: 'tfe_announcements',
-    JOURNALS:      'tfe_journals',
-    SESSION:       'tfe_admin_session',
-    RESET_DONE:    'tfe_admin_reset_done'
+    JOURNALS: 'tfe_journals',
+    SESSION: 'tfe_admin_session',
+    RESET_DONE: 'tfe_admin_reset_done'
 };
 
 /* --- Default Data --- */
@@ -43,10 +42,6 @@ function getDefaultFounders() {
 }
 
 function getDefaultFaces() {
-    return [];
-}
-
-function getDefaultCareers() {
     return [];
 }
 

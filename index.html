@@ -96,7 +96,6 @@
 
             <button id="link-mobile-services"   onclick="showPageMobile('services')"   class="nav-link-mobile hover:text-[#C8A96A] transition-all">Services</button>
             <button id="link-mobile-journal"    onclick="showPageMobile('journal')"    class="nav-link-mobile hover:text-[#C8A96A] transition-all">Journal</button>
-            <button id="link-mobile-jobs"       onclick="showPageMobile('jobs')"       class="nav-link-mobile hover:text-[#C8A96A] transition-all">Careers</button>
             <button id="link-mobile-contact"    onclick="showPageMobile('contact')"    class="nav-link-mobile hover:text-[#C8A96A] transition-all font-extrabold text-[#C8A96A]">Inquiry</button>
         </div>
         <div class="mt-12 flex gap-6">
@@ -150,8 +149,8 @@
     <div id="founderModal" class="modal">
         <div class="modal-overlay" onclick="closeFounderModal()"></div>
         <div class="modal-content">
-            <div class="p-10 md:p-16">
-                <button onclick="closeFounderModal()" class="absolute top-8 right-8 w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-all">
+            <div class="p-10 md:p-16 relative">
+                <button onclick="closeFounderModal()" class="absolute top-8 right-8 w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-all text-white z-10" aria-label="Close modal">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
                 <div id="modalBody"><!-- Injected by JS --></div>

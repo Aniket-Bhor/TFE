@@ -45,10 +45,6 @@
                     <i class="bx bx-smile text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">The Faces</span>
                 </button>
-                <button onclick="showSection('careers')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-careers">
-                    <i class="bx bx-briefcase text-xl"></i>
-                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Careers</span>
-                </button>
                 <button onclick="showSection('announcements')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-announcements">
                     <i class="bx bx-bell text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">Announcements</span>
@@ -98,9 +94,7 @@
                 <div id="faces-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </section>
             
-            <section id="careers-section" class="space-y-8 hidden">
-                <div id="careers-list" class="grid grid-cols-1 gap-8"></div>
-            </section>
+
             
             <section id="announcements-section" class="space-y-8 hidden">
                 <div id="announcements-list" class="grid grid-cols-1 gap-8"></div>
@@ -137,10 +131,7 @@
                     <i class="bx bx-smile text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">The Faces</span>
                 </button>
-                <button onclick="showSection('careers'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-careers">
-                    <i class="bx bx-briefcase text-xl"></i>
-                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Careers</span>
-                </button>
+
                 <button onclick="showSection('announcements'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-announcements">
                     <i class="bx bx-bell text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">Announcements</span>
@@ -309,38 +300,7 @@
         </div>
     </div>
     
-    <div id="career-modal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
-        <div class="modal-content relative z-10 max-w-3xl w-full mx-4 my-8">
-            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-start mb-10">
-                    <div>
-                        <h2 class="text-3xl font-black uppercase mb-2" id="career-modal-title">Add Career</h2>
-                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
-                    </div>
-                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
-                        <i class="bx bx-x text-3xl"></i>
-                    </button>
-                </div>
-                
-                <form id="career-form" class="space-y-6">
-                    <input type="hidden" id="career-id">
-                    <div>
-                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Position</label>
-                        <input type="text" id="career-position" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Graphic Designer">
-                    </div>
-                    <div>
-                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Contact Email</label>
-                        <input type="email" id="career-email" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="aryapawar@thefifthelement.in">
-                    </div>
-                    <div class="flex gap-4 pt-4">
-                        <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
-                        <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
     
     <div id="announcement-modal" class="fixed inset-0 z-50 hidden">
         <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
