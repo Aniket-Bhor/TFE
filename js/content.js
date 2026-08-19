@@ -25,7 +25,7 @@ function observeRevealElements(root = document) {
 
 /**
  * Fetch a collection from the server API with a default fallback.
- * @param {string}   collection - e.g. 'influencers'
+ * @param {string}   collection - e.g. 'announcements'
  * @param {Function} fallback   - getDefault*() from data.js
  * @returns {Promise<Array>}
  */
@@ -49,50 +49,6 @@ async function fetchCollection(collection, fallback) {
     return serverData;
 }
 
-/* ── Influencers ─────────────────────────────────────────────── */
-
-async function loadInfluencers() {
-    const grid = document.getElementById('influencer-grid');
-    if (!grid) return;
-    const influencers = await fetchCollection('influencers', getDefaultInfluencers);
-    renderInfluencers(influencers);
-}
-
-function renderInfluencers(influencers) {
-    const grid = document.getElementById('influencer-grid');
-    if (!grid) return;
-
-    grid.className = influencers.length === 1
-        ? 'grid grid-cols-1 max-w-[350px] md:max-w-[400px] mx-auto transition-all duration-700'
-        : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 transition-all duration-700';
-
-    grid.innerHTML = influencers.map(inf => `
-        ${inf.link ? `<a href="${inf.link}" target="_blank" class="block">` : '<div>'}
-        <div class="influencer-card glass rounded-[40px] p-8 border border-white/5 flex flex-col group scroll-reveal cursor-pointer">
-            <div class="relative overflow-hidden rounded-[30px] w-48 h-48 glass border border-white/10 mb-8 mx-auto hover:border-[#D4AF37]/50 transition-all duration-500">
-                <img src="${inf.image || 'placeholder.jpg'}" alt="${inf.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#000B3D]/40 to-transparent"></div>
-            </div>
-            <div class="flex-grow text-center">
-                <h3 class="text-3xl font-bold mb-2 tracking-tight uppercase">${inf.name}</h3>
-                <p class="text-[#D4AF37] luxury-caption text-[11px] font-bold mb-2 tracking-[0.2em]">${inf.platform || 'Instagram'}</p>
-                <p class="text-[#D4AF37] font-bold text-lg mb-4">${inf.followers} <span class="text-white/40 luxury-caption text-[10px] tracking-widest ml-1">Followers</span></p>
-                <p class="text-white/40 text-sm leading-relaxed mb-8 font-medium line-clamp-2 overflow-hidden text-ellipsis">${inf.bio}</p>
-            </div>
-            <div class="mt-auto flex justify-center">
-                ${inf.link ? `
-                    <div class="btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 shadow-lg">
-                        <i class="bx bxl-instagram text-lg"></i> View Profile
-                    </div>
-                ` : ''}
-            </div>
-        </div>
-        ${inf.link ? '</a>' : '</div>'}
-    `).join('');
-
-    observeRevealElements(grid);
-    if (window.lucide) lucide.createIcons();
-}
 
 /* ── Announcements ───────────────────────────────────────────── */
 
@@ -170,7 +126,6 @@ let cachedFounders = [];
 
 async function loadFounder() {
     localStorage.removeItem(STORAGE_KEYS.FOUNDERS); // Clear old cache
-    localStorage.removeItem(STORAGE_KEYS.FACES); // Clear old faces cache too
     const founders = await fetchCollection('founders', getDefaultFounders);
     cachedFounders = founders || [];
     renderFounder(cachedFounders);
@@ -183,10 +138,10 @@ function renderFounder(founders) {
     if (!founders || founders.length === 0) { container.innerHTML = ''; return; }
 
     container.innerHTML = founders.map(fdr => {
-        const key = (fdr.id === '1' || (fdr.name && fdr.name.toLowerCase().includes('arya'))) ? 'arya' : fdr.id;
+        const id = fdr.id || fdr._fbKey || '1';
         return `
         <div class="group cursor-pointer flex flex-col items-center gap-8"
-             onclick="openFounderModal('${key}')">
+             onclick="openFounderModal('${id}')">
             <div class="relative overflow-hidden rounded-[30px] w-64 h-64 md:w-80 md:h-80 glass border border-white/10 hover:border-[#D4AF37]/50 transition-all duration-500">
                 <img src="${fdr.image || 'aryapic.png'}" alt="${fdr.name || 'Founder'}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#000B3D]/40 to-transparent"></div>
@@ -202,9 +157,13 @@ function renderFounder(founders) {
 
 /* ── The Faces ───────────────────────────────────────────────── */
 
+let cachedFaces = [];
+
 async function loadFaces() {
+    localStorage.removeItem(STORAGE_KEYS.FACES); // Clear old cache
     const faces = await fetchCollection('faces', getDefaultFaces);
-    renderFaces(faces);
+    cachedFaces = faces || [];
+    renderFaces(cachedFaces);
 }
 
 function renderFaces(faces) {
@@ -213,55 +172,82 @@ function renderFaces(faces) {
 
     if (faces.length === 0) { container.innerHTML = ''; return; }
 
-    container.innerHTML = faces.map(f => `
-        <div class="group cursor-pointer text-center md:text-left flex flex-col items-center md:items-start">
+    container.innerHTML = faces.map(f => {
+        const id = f.id || f._fbKey || '';
+        return `
+        <div class="group cursor-pointer text-center md:text-left flex flex-col items-center md:items-start"
+             onclick="openFaceModal('${id}')">
             <div class="relative overflow-hidden rounded-[30px] w-48 h-48 glass border border-white/10 mb-6 hover:border-[#D4AF37]/50 transition-all duration-500">
-                <img src="${f.image || 'placeholder.jpg'}" alt="${f.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="${f.image || 'placeholder.jpg'}" alt="${f.name || 'Team member'}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#000B3D]/40 to-transparent"></div>
             </div>
-            <h3 class="text-3xl font-bold mb-1">${f.name}</h3>
-            <p class="luxury-caption text-[11px] text-[#D4AF37]">${f.role}</p>
+            <h3 class="text-3xl font-bold mb-1">${f.name || ''}</h3>
+            <p class="luxury-caption text-[11px] text-[#D4AF37]">${f.role || f.title || ''}</p>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
-
-
-
-
 
 /* ── Founder & Portfolio Modals ──────────────────────────────── */
 
-function openFounderModal(id) {
-    let data = typeof founderData !== 'undefined' ? founderData[id] : null;
+function escapeModalHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
-    if (!data) {
-        const found = cachedFounders.find(f => f.id === id || (f.name && f.name.toLowerCase().includes(id)));
-        if (found) {
-            data = {
-                name: found.name,
-                title: found.title || 'Founder, The Fifth Element',
-                image: found.image || 'aryapic.png',
-                bio: found.bio || (founderData && founderData.arya ? founderData.arya.bio : '')
-            };
-        } else if (typeof founderData !== 'undefined' && founderData.arya) {
-            data = founderData.arya;
-        }
-    }
-
+function openProfileModal(data) {
     const modal = document.getElementById('founderModal');
     const body  = document.getElementById('modalBody');
     if (!data || !modal || !body) return;
 
+    const name = data.name || '';
+    const title = data.title || data.role || '';
+    const image = data.image || 'aryapic.png';
+    const bio = data.bio ? data.bio.trim() : '';
+    const achievements = Array.isArray(data.achievements)
+        ? data.achievements.filter(a => a && ((a.title && a.title.trim()) || (a.description && a.description.trim())))
+        : [];
+
+    const hasExtraContent = Boolean(bio || achievements.length > 0);
+
+    const bioHtml = bio
+        ? `<div class="text-white/80 text-base md:text-lg leading-relaxed ${achievements.length > 0 ? 'mb-8' : ''} whitespace-pre-line">${escapeModalHtml(bio)}</div>`
+        : '';
+
+    const achievementsHtml = achievements.length > 0
+        ? `
+            <ul class="space-y-6 text-white/70 text-base md:text-lg leading-relaxed text-left">
+                ${achievements.map(a => {
+                    const itemTitle = a.title ? a.title.trim() : '';
+                    const itemDesc = a.description ? a.description.trim() : '';
+                    return `
+                        <li class="relative pl-6">
+                            <span class="absolute left-0 top-1 text-[#D4AF37] text-lg font-bold">•</span>
+                            ${itemTitle ? `<strong class="text-white block text-lg md:text-xl mb-1">${escapeModalHtml(itemTitle)}</strong>` : ''}
+                            ${itemDesc ? `<p class="text-white/70 text-sm md:text-base leading-relaxed">${escapeModalHtml(itemDesc)}</p>` : ''}
+                        </li>
+                    `;
+                }).join('')}
+            </ul>
+        `
+        : '';
+
     body.innerHTML = `
-        <div class="flex flex-col md:flex-row gap-12 items-center md:items-start">
-            <div class="w-48 h-48 rounded-[40px] overflow-hidden shadow-2xl border-4 border-[#D4AF37]/20 flex-shrink-0">
-                <img src="${data.image || 'aryapic.png'}" class="w-full h-full object-cover" alt="${data.name || 'Founder'}">
+        <div class="flex flex-col md:flex-row gap-10 md:gap-12 items-center md:items-start">
+            <div class="w-40 h-40 md:w-48 md:h-48 rounded-[36px] overflow-hidden shadow-2xl border-2 border-[#D4AF37]/30 flex-shrink-0 bg-white/5">
+                <img src="${escapeModalHtml(image)}" class="w-full h-full object-cover" alt="${escapeModalHtml(name)}">
             </div>
-            <div class="flex-grow">
-                <h2 class="text-4xl font-black uppercase mb-2">${data.name || ''}</h2>
-                <p class="text-[#D4AF37] luxury-caption text-[12px] font-bold mb-10 tracking-[0.2em]">${data.title || ''}</p>
-                <div class="h-[1px] bg-white/10 mb-10"></div>
-                ${data.bio || ''}
+            <div class="flex-grow text-center md:text-left w-full">
+                <h2 class="text-3xl md:text-4xl font-black uppercase mb-2 tracking-tight">${escapeModalHtml(name)}</h2>
+                <p class="text-[#D4AF37] luxury-caption text-[11px] md:text-[12px] font-bold ${hasExtraContent ? 'mb-6' : 'mb-2'} tracking-[0.2em] uppercase">${escapeModalHtml(title)}</p>
+                ${hasExtraContent ? '<div class="h-[1px] bg-white/10 mb-8"></div>' : ''}
+                ${bioHtml}
+                ${achievementsHtml}
             </div>
         </div>
     `;
@@ -269,6 +255,23 @@ function openFounderModal(id) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     if (window.lucide) lucide.createIcons();
+}
+
+function openFounderModal(id) {
+    let data = cachedFounders.find(f => f.id === id || f._fbKey === id || (f.name && f.name.toLowerCase().includes(id)));
+    if (!data && cachedFounders.length > 0) {
+        data = cachedFounders[0];
+    }
+    if (data) {
+        openProfileModal(data);
+    }
+}
+
+function openFaceModal(id) {
+    let data = cachedFaces.find(f => f.id === id || f._fbKey === id || (f.name && f.name.toLowerCase().includes(id)));
+    if (data) {
+        openProfileModal(data);
+    }
 }
 
 function openPortfolioModal(id) {

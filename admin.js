@@ -12,12 +12,11 @@
 // Admin session is stored in localStorage — checked by checkAuth() below.
 
 
-let influencers = [];
 let founders = [];
 let faces = [];
 let announcements = [];
 let journals = [];
-let currentSection = 'influencers';
+let currentSection = 'founders';
 
 function checkAuth() {
     const session = localStorage.getItem(STORAGE_KEYS.SESSION);
@@ -91,10 +90,6 @@ async function apiDelete(collection, id) {
 
 /* ── Load functions (all fetch from server) ─────────────────── */
 
-async function loadInfluencers() {
-    influencers = await apiGet('influencers', getDefaultInfluencers);
-}
-
 async function loadAnnouncements() {
     announcements = await apiGet('announcements', getDefaultAnnouncements);
 }
@@ -113,7 +108,6 @@ async function loadFaces() {
 
 async function loadData() {
     await Promise.all([
-        loadInfluencers(),
         loadFounder(),
         loadFaces(),
         loadAnnouncements(),
@@ -152,54 +146,7 @@ async function deleteItem(collection, id, localArray, renderFn) {
     }
 }
 
-function renderInfluencers() {
-    const container = document.getElementById('influencers-list');
-    if (!container) return;
-    
-    if (influencers.length === 0) {
-        container.innerHTML = `
-            <div class="col-span-full glass rounded-[40px] p-12 border border-white/10 text-center">
-                <div class="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-8">
-                    <i class="bx bx-user text-5xl text-white/30"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4">No Influencers Yet</h3>
-                <p class="text-white/40 mb-8">Get started by adding your first influencer</p>
-                <button onclick="openModal('add-influencer')" class="btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-full luxury-caption text-[10px] font-extrabold">
-                    Add First Influencer
-                </button>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = influencers.map(inf => `
-        <div class="glass rounded-[40px] p-6 border border-white/10 hover-card relative overflow-hidden group">
-            <div class="flex items-start gap-4 mb-6 relative z-10">
-                <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-[#D4AF37]/30 flex-shrink-0">
-                    <img src="${inf.image || 'placeholder.jpg'}" class="w-full h-full object-cover" alt="${inf.name}">
-                </div>
-                <div class="flex-1 min-w-0 pr-20">
-                    <h3 class="text-xl font-bold uppercase line-clamp-1 mb-1">${inf.name}</h3>
-                    <p class="text-[#D4AF37] text-sm truncate">@${inf.username}</p>
-                </div>
-            </div>
-            
-            <div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
-                <button onclick="editInfluencer('${inf.id}')" class="w-10 h-10 glass rounded-full flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37]/20 transition-all backdrop-blur-md border border-white/10">
-                    <i class="bx bx-edit text-lg"></i>
-                </button>
-                <button onclick="deleteInfluencer('${inf.id}')" class="w-10 h-10 glass rounded-full flex items-center justify-center text-red-400 hover:bg-red-500/20 transition-all backdrop-blur-md border border-white/10">
-                    <i class="bx bx-trash text-lg"></i>
-                </button>
-            </div>
-            
-            <div class="relative z-10">
-                <p class="text-white/40 text-sm mb-3">${inf.followers} followers</p>
-                <p class="text-white/60 text-sm line-clamp-2">${inf.bio}</p>
-            </div>
-        </div>
-    `).join('');
-}
+
 
 
 
@@ -383,7 +330,6 @@ function renderFaces() {
 }
 
 function renderAll() {
-    renderInfluencers();
     renderFounder();
     renderFaces();
     renderAnnouncements();
@@ -393,7 +339,7 @@ function renderAll() {
 function showSection(section) {
     currentSection = section;
 
-    const contentSections = ['influencers', 'founders', 'faces', 'announcements', 'journals'];
+    const contentSections = ['founders', 'faces', 'announcements', 'journals'];
     contentSections.forEach(s => {
         const el = document.getElementById(`${s}-section`);
         if (el) el.classList.add('hidden');
@@ -407,7 +353,6 @@ function showSection(section) {
     document.getElementById(`nav-mobile-${section}`)?.classList.add('active');
 
     const titles = {
-        influencers:   { title: 'Influencers',    subtitle: 'manage your creators',       btn: 'Add Influencer',   action: 'add-influencer' },
         founders:      { title: 'Founder',        subtitle: 'manage your founders',        btn: 'Add Founder',      action: 'add-founder' },
         faces:         { title: 'The Faces',       subtitle: 'the faces behind The Fifth Element', btn: 'Add Face',         action: 'add-face' },
         announcements: { title: 'Announcements',   subtitle: 'manage your announcements',   btn: 'Add Announcement', action: 'add-announcement' },
@@ -437,8 +382,6 @@ function toggleMobileMenu() {
 
 function openModal(type) {
     const modalMap = {
-        'add-influencer': { modal: 'influencer-modal', title: 'Add Influencer' },
-        'edit-influencer': { modal: 'influencer-modal', title: 'Edit Influencer' },
         'add-founder': { modal: 'founder-modal', title: 'Add Founder' },
         'edit-founder': { modal: 'founder-modal', title: 'Edit Founder' },
         'add-face': { modal: 'face-modal', title: 'Add Face' },
@@ -453,12 +396,36 @@ function openModal(type) {
     const modal = document.getElementById(config.modal);
     modal.classList.remove('hidden');
     
-    if (config.modal === 'influencer-modal') {
-        document.getElementById('modal-title').textContent = config.title;
-    } else if (config.modal === 'founder-modal') {
+    if (config.modal === 'founder-modal') {
         document.getElementById('founder-modal-title').textContent = config.title;
+        if (type === 'add-founder') {
+            document.getElementById('founder-id').value = '';
+            document.getElementById('founder-name').value = '';
+            document.getElementById('founder-title').value = '';
+            document.getElementById('founder-bio').value = '';
+            document.getElementById('founder-image').value = '';
+            const preview = document.getElementById('founder-image-preview');
+            if (preview) {
+                preview.classList.add('hidden');
+                preview.classList.remove('flex');
+            }
+            renderAchievementsList('founder-achievements', []);
+        }
     } else if (config.modal === 'face-modal') {
         document.getElementById('face-modal-title').textContent = config.title;
+        if (type === 'add-face') {
+            document.getElementById('face-id').value = '';
+            document.getElementById('face-name').value = '';
+            document.getElementById('face-role').value = '';
+            document.getElementById('face-bio').value = '';
+            document.getElementById('face-image').value = '';
+            const preview = document.getElementById('face-image-preview');
+            if (preview) {
+                preview.classList.add('hidden');
+                preview.classList.remove('flex');
+            }
+            renderAchievementsList('face-achievements', []);
+        }
     } else if (config.modal === 'announcement-modal') {
         document.getElementById('announcement-modal-title').textContent = config.title;
     } else if (config.modal === 'journal-modal') {
@@ -469,6 +436,10 @@ function openModal(type) {
 function closeModal() {
     document.querySelectorAll('[id$="-modal"]').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('form').forEach(form => form.reset());
+    const founderPreview = document.getElementById('founder-image-preview');
+    if (founderPreview) { founderPreview.classList.add('hidden'); founderPreview.classList.remove('flex'); }
+    const facePreview = document.getElementById('face-image-preview');
+    if (facePreview) { facePreview.classList.add('hidden'); facePreview.classList.remove('flex'); }
 }
 
 function formatDate(dateStr) {
@@ -480,6 +451,103 @@ function formatDate(dateStr) {
 
 function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+/* ── Dynamic Achievements Manager ───────────────────────────── */
+
+function escapeAdminAttribute(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function escapeAdminText(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function renderAchievementItem(containerId, data = { title: '', description: '' }, index = 0, total = 1) {
+    const item = document.createElement('div');
+    item.className = 'achievement-item glass rounded-[20px] p-4 border border-white/10 space-y-3 relative group';
+    item.innerHTML = `
+        <div class="flex items-center justify-between gap-2">
+            <span class="text-[#D4AF37] luxury-caption text-[9px] font-bold">Bullet Point #${index + 1}</span>
+            <div class="flex items-center gap-1">
+                <button type="button" onclick="moveAchievement('${containerId}', ${index}, -1)" class="w-7 h-7 glass rounded-full flex items-center justify-center text-white/60 hover:text-[#D4AF37] hover:bg-white/10 transition-all ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" title="Move Up" ${index === 0 ? 'disabled' : ''}>
+                    <i class="bx bx-chevron-up text-lg"></i>
+                </button>
+                <button type="button" onclick="moveAchievement('${containerId}', ${index}, 1)" class="w-7 h-7 glass rounded-full flex items-center justify-center text-white/60 hover:text-[#D4AF37] hover:bg-white/10 transition-all ${index === total - 1 ? 'opacity-30 cursor-not-allowed' : ''}" title="Move Down" ${index === total - 1 ? 'disabled' : ''}>
+                    <i class="bx bx-chevron-down text-lg"></i>
+                </button>
+                <button type="button" onclick="deleteAchievement('${containerId}', ${index})" class="w-7 h-7 glass rounded-full flex items-center justify-center text-red-400 hover:bg-red-500/20 transition-all" title="Remove Bullet Point">
+                    <i class="bx bx-trash text-sm"></i>
+                </button>
+            </div>
+        </div>
+        <div>
+            <input type="text" class="achievement-title input-field w-full glass border border-white/10 rounded-[12px] p-3 text-sm bg-transparent text-white outline-none" placeholder="Heading / Highlight (e.g., Founder, Westelle & Co.)" value="${escapeAdminAttribute(data.title || '')}">
+        </div>
+        <div>
+            <textarea rows="2" class="achievement-desc input-field w-full glass border border-white/10 rounded-[12px] p-3 text-sm bg-transparent text-white outline-none resize-y" placeholder="Description / Details...">${escapeAdminText(data.description || '')}</textarea>
+        </div>
+    `;
+    return item;
+}
+
+function getAchievementsFromDOM(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+    const items = [];
+    container.querySelectorAll('.achievement-item').forEach(el => {
+        const titleEl = el.querySelector('.achievement-title');
+        const descEl = el.querySelector('.achievement-desc');
+        const title = titleEl ? titleEl.value.trim() : '';
+        const description = descEl ? descEl.value.trim() : '';
+        if (title || description) {
+            items.push({ title, description });
+        }
+    });
+    return items;
+}
+
+function renderAchievementsList(containerId, items = []) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    if (!items || items.length === 0) {
+        container.innerHTML = `<p class="text-white/30 text-xs italic py-2">No bullet points added yet. Click "+ Add Achievement" to create one.</p>`;
+        return;
+    }
+    items.forEach((item, index) => {
+        container.appendChild(renderAchievementItem(containerId, item, index, items.length));
+    });
+}
+
+function addAchievementRow(containerId) {
+    const current = getAchievementsFromDOM(containerId);
+    current.push({ title: '', description: '' });
+    renderAchievementsList(containerId, current);
+}
+
+function moveAchievement(containerId, index, direction) {
+    const current = getAchievementsFromDOM(containerId);
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= current.length) return;
+    const temp = current[index];
+    current[index] = current[targetIndex];
+    current[targetIndex] = temp;
+    renderAchievementsList(containerId, current);
+}
+
+function deleteAchievement(containerId, index) {
+    const current = getAchievementsFromDOM(containerId);
+    current.splice(index, 1);
+    renderAchievementsList(containerId, current);
 }
 
 function handleImageUpload(inputId, callback) {
@@ -522,31 +590,6 @@ function handleImageUpload(inputId, callback) {
     }
 }
 
-function editInfluencer(id) {
-    const inf = influencers.find(i => i.id === id);
-    if (!inf) return;
-    
-    document.getElementById('influencer-id').value = inf.id;
-    document.getElementById('influencer-name').value = inf.name;
-    document.getElementById('influencer-username').value = inf.username;
-    document.getElementById('influencer-followers').value = inf.followers;
-    document.getElementById('influencer-bio').value = inf.bio;
-    document.getElementById('influencer-link').value = inf.link || '';
-    
-    document.getElementById('preview-name').textContent = inf.name;
-    document.getElementById('preview-followers').textContent = inf.followers;
-    document.getElementById('preview-bio').textContent = inf.bio;
-    document.getElementById('preview-image').src = inf.image;
-    
-    openModal('edit-influencer');
-}
-
-async function deleteInfluencer(id) {
-    await deleteItem('influencers', id, influencers, renderInfluencers);
-}
-
-
-
 function editAnnouncement(id) {
     const ann = announcements.find(a => a.id === id);
     if (!ann) return;
@@ -584,13 +627,28 @@ async function deleteJournal(id) {
 }
 
 function editFounder(id) {
-    const fdr = founders.find(f => f.id === id);
+    const fdr = founders.find(f => f.id === id || f._fbKey === id);
     if (!fdr) return;
     
-    document.getElementById('founder-id').value = fdr.id;
-    document.getElementById('founder-name').value = fdr.name;
-    document.getElementById('founder-title').value = fdr.title;
+    document.getElementById('founder-id').value = fdr.id || fdr._fbKey || '';
+    document.getElementById('founder-name').value = fdr.name || '';
+    document.getElementById('founder-title').value = fdr.title || '';
+    document.getElementById('founder-bio').value = fdr.bio || '';
+    document.getElementById('founder-image').value = '';
     
+    const preview = document.getElementById('founder-image-preview');
+    if (preview) {
+        if (fdr.image) {
+            preview.querySelector('img').src = fdr.image;
+            preview.classList.remove('hidden');
+            preview.classList.add('flex');
+        } else {
+            preview.classList.add('hidden');
+            preview.classList.remove('flex');
+        }
+    }
+    
+    renderAchievementsList('founder-achievements', fdr.achievements || []);
     openModal('edit-founder');
 }
 
@@ -599,21 +657,34 @@ async function deleteFounder(id) {
 }
 
 function editFace(id) {
-    const f = faces.find(x => x.id === id);
+    const f = faces.find(x => x.id === id || x._fbKey === id);
     if (!f) return;
     
-    document.getElementById('face-id').value = f.id;
-    document.getElementById('face-name').value = f.name;
-    document.getElementById('face-role').value = f.role;
+    document.getElementById('face-id').value = f.id || f._fbKey || '';
+    document.getElementById('face-name').value = f.name || '';
+    document.getElementById('face-role').value = f.role || f.title || '';
+    document.getElementById('face-bio').value = f.bio || '';
+    document.getElementById('face-image').value = '';
     
+    const preview = document.getElementById('face-image-preview');
+    if (preview) {
+        if (f.image) {
+            preview.querySelector('img').src = f.image;
+            preview.classList.remove('hidden');
+            preview.classList.add('flex');
+        } else {
+            preview.classList.add('hidden');
+            preview.classList.remove('flex');
+        }
+    }
+    
+    renderAchievementsList('face-achievements', f.achievements || []);
     openModal('edit-face');
 }
 
 async function deleteFace(id) {
     await deleteItem('faces', id, faces, renderFaces);
 }
-
-
 
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
@@ -632,74 +703,6 @@ function showToast(message, type = 'success') {
 }
 
 function initForms() {
-    const influencerForm = document.getElementById('influencer-form');
-    if (influencerForm) {
-        influencerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('influencer-id').value;
-            let newImage = '';
-            
-            const finalize = async () => {
-                const data = {
-                    id: id || generateId(),
-                    name: document.getElementById('influencer-name').value,
-                    username: document.getElementById('influencer-username').value,
-                    followers: document.getElementById('influencer-followers').value,
-                    bio: document.getElementById('influencer-bio').value,
-                    link: document.getElementById('influencer-link').value,
-                    image: newImage || (id ? influencers.find(i => i.id === id)?.image : ''),
-                    platform: 'Instagram'
-                };
-                
-                try {
-                    if (id) {
-                        await apiPut('influencers', id, data);
-                        const idx = influencers.findIndex(i => i.id === id);
-                        if (idx !== -1) influencers[idx] = data;
-                        showToast('Influencer updated!', 'success');
-                    } else {
-                        const created = await apiPost('influencers', data);
-                        influencers.push(created);
-                        showToast('Influencer added!', 'success');
-                    }
-                } catch (err) { showToast('Save failed: ' + err.message, 'error'); return; }
-                renderInfluencers();
-                closeModal();
-            };
-            
-            const imageInput = document.getElementById('influencer-image');
-            if (imageInput.files && imageInput.files[0]) {
-                handleImageUpload('influencer-image', (img) => {
-                    newImage = img;
-                    finalize();
-                });
-            } else {
-                finalize();
-            }
-        });
-        
-        ['name', 'username', 'followers', 'bio'].forEach(field => {
-            const el = document.getElementById(`influencer-${field}`);
-            if (el) {
-                el.addEventListener('input', () => {
-                    const preview = document.getElementById(`preview-${field}`);
-                    if (preview) preview.textContent = el.value || (field === 'name' ? 'Your Name' : field === 'followers' ? '0' : 'Your bio will appear here...');
-                });
-            }
-        });
-        
-        document.getElementById('influencer-image')?.addEventListener('change', (e) => {
-            if (e.target.files && e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    document.getElementById('preview-image').src = ev.target.result;
-                };
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-    }
-    
-
     
     const announcementForm = document.getElementById('announcement-form');
     if (announcementForm) {
@@ -783,17 +786,20 @@ function initForms() {
             let newImage = '';
             
             const finalize = async () => {
+                const existing = id ? founders.find(f => f.id === id || f._fbKey === id) : null;
                 const data = {
                     id: id || generateId(),
-                    name: document.getElementById('founder-name').value,
-                    title: document.getElementById('founder-title').value,
-                    image: newImage || (id ? founders.find(f => f.id === id)?.image : '')
+                    name: document.getElementById('founder-name').value.trim(),
+                    title: document.getElementById('founder-title').value.trim(),
+                    image: newImage || (existing ? existing.image : 'aryapic.png'),
+                    bio: document.getElementById('founder-bio').value.trim(),
+                    achievements: getAchievementsFromDOM('founder-achievements')
                 };
                 
                 try {
                     if (id) {
                         await apiPut('founders', id, data);
-                        const idx = founders.findIndex(f => f.id === id);
+                        const idx = founders.findIndex(f => f.id === id || f._fbKey === id);
                         if (idx !== -1) founders[idx] = data;
                         showToast('Founder updated!', 'success');
                     } else {
@@ -826,17 +832,22 @@ function initForms() {
             let newImage = '';
             
             const finalize = async () => {
+                const existing = id ? faces.find(f => f.id === id || f._fbKey === id) : null;
+                const roleValue = document.getElementById('face-role').value.trim();
                 const data = {
                     id: id || generateId(),
-                    name: document.getElementById('face-name').value,
-                    role: document.getElementById('face-role').value,
-                    image: newImage || (id ? faces.find(f => f.id === id)?.image : '')
+                    name: document.getElementById('face-name').value.trim(),
+                    role: roleValue,
+                    title: roleValue,
+                    image: newImage || (existing ? existing.image : ''),
+                    bio: document.getElementById('face-bio').value.trim(),
+                    achievements: getAchievementsFromDOM('face-achievements')
                 };
                 
                 try {
                     if (id) {
                         await apiPut('faces', id, data);
-                        const idx = faces.findIndex(f => f.id === id);
+                        const idx = faces.findIndex(f => f.id === id || f._fbKey === id);
                         if (idx !== -1) faces[idx] = data;
                         showToast('Face updated!', 'success');
                     } else {
@@ -860,10 +871,6 @@ function initForms() {
             }
         });
     }
-    
-
-    
-
 }
 
 async function initAdminPanel() {

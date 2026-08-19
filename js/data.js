@@ -9,7 +9,6 @@
 
 /* --- localStorage Keys --- */
 const STORAGE_KEYS = {
-    INFLUENCERS: 'tfe_influencers',
     FOUNDERS: 'tfe_founders',
     FACES: 'tfe_faces',
     ANNOUNCEMENTS: 'tfe_announcements',
@@ -20,9 +19,6 @@ const STORAGE_KEYS = {
 
 /* --- Default Data --- */
 
-function getDefaultInfluencers() {
-    return [];
-}
 
 function getDefaultAnnouncements() { return []; }
 
@@ -36,7 +32,34 @@ function getDefaultFounders() {
             id: '1',
             name: 'Arya Pawar',
             title: 'Founder, The Fifth Element',
-            image: 'aryapic.png'
+            image: 'aryapic.png',
+            bio: '',
+            achievements: [
+                {
+                    title: 'Founder, Westelle & Co.',
+                    description: 'Leading an event and brand collaboration venture, creating experiences backed by strong execution and creative strategy'
+                },
+                {
+                    title: 'Charter President, Rotaract Club of Thane Royales',
+                    description: 'Built the club from the ground up, leading impactful initiatives and fostering a strong culture of leadership and service (Non profit organisation)'
+                },
+                {
+                    title: 'Charter President, Rotaract Club of Hiranandani Legends',
+                    description: 'Played a key role in establishing the club, contributing to its vision, growth, and early-stage initiatives (Non profit organisation)'
+                },
+                {
+                    title: 'Brand Collaborations & Campaigns',
+                    description: 'Worked with brands like Timbuckdo, HyugaLife, and Molten, executing campaigns and partnerships end-to-end'
+                },
+                {
+                    title: 'Community Impact & Service',
+                    description: 'Organised multiple community service events, engaging and connecting with 60+ children through meaningful initiatives'
+                },
+                {
+                    title: 'Execution-Driven & Systems Focused',
+                    description: 'Building reliable systems across events and influencer marketing to ensure consistency, clarity, and scalable impact'
+                }
+            ]
         }
     ];
 }
@@ -44,43 +67,6 @@ function getDefaultFounders() {
 function getDefaultFaces() {
     return [];
 }
-
-/* --- Founder Bio Data (for modals on public site) --- */
-const founderData = {
-    arya: {
-        name: 'Arya Pawar',
-        title: 'Founder & Creative Director, The Fifth Element',
-        image: 'aryapic.png',
-        bio: `
-            <ul class="space-y-8 text-white/70 text-lg leading-relaxed">
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Founder, Westelle & Co.</strong>
-                    Leading an event and brand collaboration venture, creating experiences backed by strong execution and creative strategy
-                </li>
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Charter President, Rotaract Club of Thane Royales</strong>
-                    Built the club from the ground up, leading impactful initiatives and fostering a strong culture of leadership and service (Non profit organisation)
-                </li>
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Charter President, Rotaract Club of Hiranandani Legends</strong>
-                    Played a key role in establishing the club, contributing to its vision, growth, and early-stage initiatives (Non profit organisation)
-                </li>
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Brand Collaborations & Campaigns</strong>
-                    Worked with brands like Timbuckdo, HyugaLife, and Molten, executing campaigns and partnerships end-to-end
-                </li>
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Community Impact & Service</strong>
-                    Organised multiple community service events, engaging and connecting with 60+ children through meaningful initiatives
-                </li>
-                <li>
-                    <strong class="text-white block text-xl mb-2">• Execution-Driven & Systems Focused</strong>
-                    Building reliable systems across events and influencer marketing to ensure consistency, clarity, and scalable impact
-                </li>
-            </ul>
-        `
-    }
-};
 
 /* --- Portfolio / Case Study Data --- */
 const portfolioData = {

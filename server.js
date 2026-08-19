@@ -163,7 +163,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname)));
 
 /* ── Content CRUD routes ─────────────────────────────────────── */
-const COLLECTIONS = ['influencers', 'founders', 'faces', 'announcements', 'journals'];
+const COLLECTIONS = ['founders', 'faces', 'announcements', 'journals'];
 
 COLLECTIONS.forEach(name => {
 
@@ -255,64 +255,39 @@ async function seedDatabaseIfEmpty() {
     console.log('  ✦ Seeding database if empty...');
     
     const seedData = {
-        influencers: [
-            {
-                id: '1',
-                name: 'Vartika Vashista',
-                username: 'vartikavashista',
-                followers: '50K',
-                bio: 'Fashion & lifestyle influencer based in Mumbai',
-                link: 'https://instagram.com/vartikavashista',
-                image: 'Influencers/Vartika Vashista/Vartika.jpeg',
-                platform: 'Instagram'
-            },
-            {
-                id: '2',
-                name: 'Aditi Fadtare',
-                username: 'aditifadtare',
-                followers: '35K',
-                bio: 'Content creator & digital marketer',
-                link: 'https://instagram.com/aditifadtare',
-                image: 'Influencers/Aditi Fadtare/Aditi.jpeg',
-                platform: 'Instagram'
-            },
-            {
-                id: '3',
-                name: 'Dhanshri Dake',
-                username: 'dhanshridake',
-                followers: '28K',
-                bio: 'Lifestyle & travel influencer',
-                link: 'https://instagram.com/dhanshridake',
-                image: 'Influencers/Dhanshri Dake/Dhanashri.jpeg',
-                platform: 'Instagram'
-            },
-            {
-                id: '4',
-                name: 'Osbert Dsouza',
-                username: 'osbertdsouza',
-                followers: '42K',
-                bio: 'Fitness & wellness content creator',
-                link: 'https://instagram.com/osbertdsouza',
-                image: 'Influencers/Osbert Dsouza/Osbert.jpeg',
-                platform: 'Instagram'
-            },
-            {
-                id: '5',
-                name: 'Shruti Dange',
-                username: 'shrutidange',
-                followers: '38K',
-                bio: 'Beauty & fashion influencer',
-                link: 'https://instagram.com/shrutidange',
-                image: 'Influencers/Shruti Dange/Shruti Dange.jpeg',
-                platform: 'Instagram'
-            }
-        ],
         founders: [
             {
                 id: '1',
                 name: 'Arya Pawar',
                 title: 'Founder, The Fifth Element',
-                image: 'aryapic.png'
+                image: 'aryapic.png',
+                bio: '',
+                achievements: [
+                    {
+                        title: 'Founder, Westelle & Co.',
+                        description: 'Leading an event and brand collaboration venture, creating experiences backed by strong execution and creative strategy'
+                    },
+                    {
+                        title: 'Charter President, Rotaract Club of Thane Royales',
+                        description: 'Built the club from the ground up, leading impactful initiatives and fostering a strong culture of leadership and service (Non profit organisation)'
+                    },
+                    {
+                        title: 'Charter President, Rotaract Club of Hiranandani Legends',
+                        description: 'Played a key role in establishing the club, contributing to its vision, growth, and early-stage initiatives (Non profit organisation)'
+                    },
+                    {
+                        title: 'Brand Collaborations & Campaigns',
+                        description: 'Worked with brands like Timbuckdo, HyugaLife, and Molten, executing campaigns and partnerships end-to-end'
+                    },
+                    {
+                        title: 'Community Impact & Service',
+                        description: 'Organised multiple community service events, engaging and connecting with 60+ children through meaningful initiatives'
+                    },
+                    {
+                        title: 'Execution-Driven & Systems Focused',
+                        description: 'Building reliable systems across events and influencer marketing to ensure consistency, clarity, and scalable impact'
+                    }
+                ]
             }
         ],
 
@@ -347,8 +322,7 @@ async function seedDatabaseIfEmpty() {
     for (const [collection, defaults] of Object.entries(seedData)) {
         try {
             const currentItems = await fbRead(collection);
-            // Always overwrite founders and faces to ensure correct branding
-            if (collection === 'founders' || collection === 'faces' || currentItems.length === 0) {
+            if (currentItems.length === 0) {
                 console.log(`  → Seeding ${collection}...`);
                 // Wipe existing data
                 if (db) {

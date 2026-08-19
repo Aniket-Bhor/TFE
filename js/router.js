@@ -172,7 +172,6 @@ const router = {
 
             case 'about':
                 if (typeof loadFounder   === 'function') loadFounder();
-                if (typeof loadInfluencers === 'function') loadInfluencers();
                 if (typeof loadFaces      === 'function') loadFaces();
                 break;
 

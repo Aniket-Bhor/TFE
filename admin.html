@@ -32,12 +32,7 @@
             </div>
             
             <nav class="space-y-3 flex-1 overflow-y-auto">
-                <button onclick="showSection('influencers')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-influencers">
-                    <i class="bx bx-user text-xl"></i>
-                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Influencers</span>
-                </button>
-
-                <button onclick="showSection('founders')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-founders">
+                <button onclick="showSection('founders')" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-founders">
                     <i class="bx bx-group text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">Founder</span>
                 </button>
@@ -66,13 +61,13 @@
         <main class="flex-1 lg:ml-64 p-6 lg:p-12">
             <div class="flex justify-between items-center mb-12">
                 <div>
-                    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight" id="section-title">Influencers</h1>
-                    <p class="text-white/40 luxury-caption text-[11px] mt-2" id="section-subtitle">manage your creators</p>
+                    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight" id="section-title">Founder</h1>
+                    <p class="text-white/40 luxury-caption text-[11px] mt-2" id="section-subtitle">manage your founders</p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <button onclick="openModal('add-influencer')" class="btn-hover bg-[#D4AF37] text-[#000B3D] px-6 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 whitespace-nowrap" id="add-btn">
+                    <button onclick="openModal('add-founder')" class="btn-hover bg-[#D4AF37] text-[#000B3D] px-6 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 whitespace-nowrap" id="add-btn">
                         <i class="bx bx-plus"></i>
-                        Add Influencer
+                        Add Founder
                     </button>
                     <button onclick="toggleMobileMenu()" class="lg:hidden glass w-12 h-12 rounded-full flex items-center justify-center text-[#D4AF37]">
                         <i class="bx bx-menu text-2xl"></i>
@@ -80,13 +75,7 @@
                 </div>
             </div>
             
-            <section id="influencers-section" class="space-y-8">
-                <div id="influencers-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            </section>
-            
-
-            
-            <section id="founders-section" class="space-y-8 hidden">
+            <section id="founders-section" class="space-y-8">
                 <div id="founders-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </section>
             
@@ -118,12 +107,7 @@
                 </button>
             </div>
             <nav class="space-y-3">
-                <button onclick="showSection('influencers'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-mobile-influencers">
-                    <i class="bx bx-user text-xl"></i>
-                    <span class="luxury-caption text-[10px] tracking-[0.1em]">Influencers</span>
-                </button>
-
-                <button onclick="showSection('founders'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white" id="nav-mobile-founders">
+                <button onclick="showSection('founders'); toggleMobileMenu();" class="sidebar-link w-full text-left px-5 py-4 rounded-[20px] flex items-center gap-4 text-white/60 hover:text-white active" id="nav-mobile-founders">
                     <i class="bx bx-group text-xl"></i>
                     <span class="luxury-caption text-[10px] tracking-[0.1em]">Founder</span>
                 </button>
@@ -150,80 +134,6 @@
         </div>
     </div>
     
-    <div id="influencer-modal" class="fixed inset-0 z-50 hidden">
-        <div class="modal-overlay absolute inset-0 bg-[#000B3D]/80 backdrop-blur-xl" onclick="closeModal()"></div>
-        <div class="modal-content relative z-10 max-w-4xl w-full mx-4 my-8">
-            <div class="glass rounded-[40px] border border-white/10 p-8 md:p-12 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-start mb-10">
-                    <div>
-                        <h2 class="text-3xl font-black uppercase mb-2" id="modal-title">Add Influencer</h2>
-                        <p class="text-white/40 luxury-caption text-[10px]">fill in the details</p>
-                    </div>
-                    <button onclick="closeModal()" class="text-white/40 hover:text-white transition-colors">
-                        <i class="bx bx-x text-3xl"></i>
-                    </button>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <form id="influencer-form" class="space-y-6">
-                            <input type="hidden" id="influencer-id">
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
-                                <input type="text" id="influencer-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
-                            </div>
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Username</label>
-                                <input type="text" id="influencer-username" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
-                            </div>
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Followers</label>
-                                <input type="text" id="influencer-followers" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., 100K">
-                            </div>
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Bio</label>
-                                <textarea id="influencer-bio" rows="3" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none"></textarea>
-                            </div>
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Instagram Link</label>
-                                <input type="url" id="influencer-link" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="https://instagram.com/...">
-                            </div>
-                            <div>
-                                <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Profile Image</label>
-                                <input type="file" id="influencer-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
-                            </div>
-                            <div class="flex gap-4 pt-4">
-                                <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
-                                <button type="submit" class="flex-1 btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-extrabold">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] mb-6">Live Preview</h3>
-                        <div id="influencer-preview" class="influencer-card glass rounded-[40px] p-8 border border-white/5 flex flex-col">
-                            <div class="relative overflow-hidden rounded-[30px] w-48 h-48 glass border border-white/10 mb-8 mx-auto">
-                                <img id="preview-image" src="" alt="Preview" class="w-full h-full object-cover">
-                            </div>
-                            <div class="flex-grow text-center">
-                                <h3 class="text-3xl font-bold mb-2 tracking-tight uppercase" id="preview-name">Your Name</h3>
-                                <p class="text-[#D4AF37] luxury-caption text-[11px] font-bold mb-2 tracking-[0.2em]">Instagram</p>
-                                <p class="text-[#D4AF37] font-bold text-lg mb-4"><span id="preview-followers">0</span> <span class="text-white/40 luxury-caption text-[10px] tracking-widest ml-1">Followers</span></p>
-                                <p class="text-white/40 text-sm leading-relaxed mb-8 font-medium line-clamp-2 overflow-hidden text-ellipsis" id="preview-bio">Your bio will appear here...</p>
-                            </div>
-                            <div class="mt-auto flex justify-center">
-                                <div class="btn-hover bg-[#D4AF37] text-[#000B3D] px-8 py-3 rounded-full luxury-caption text-[10px] font-extrabold flex items-center gap-2 shadow-lg">
-                                    <i class="bx bxl-instagram text-lg"></i>
-                                    View Profile
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
 
     
     <div id="founder-modal" class="fixed inset-0 z-50 hidden">
@@ -244,15 +154,34 @@
                     <input type="hidden" id="founder-id">
                     <div>
                         <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
-                        <input type="text" id="founder-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                        <input type="text" id="founder-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Arya Pawar">
                     </div>
                     <div>
-                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Title</label>
-                        <input type="text" id="founder-title" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="Co-Founder, The Fifth Element">
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Title / Designation</label>
+                        <input type="text" id="founder-title" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Founder, The Fifth Element">
                     </div>
                     <div>
                         <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Image</label>
                         <input type="file" id="founder-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                        <div id="founder-image-preview" class="mt-3 hidden items-center gap-3">
+                            <img src="" alt="Preview" class="w-12 h-12 rounded-full object-cover border border-[#D4AF37]/30">
+                            <span class="text-xs text-white/40">Current image preview</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Complete Bio / Description (Optional)</label>
+                        <textarea id="founder-bio" rows="4" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none resize-y" placeholder="Enter complete bio or overview..."></textarea>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em]">Achievements / Bullet Points (Optional)</label>
+                            <button type="button" onclick="addAchievementRow('founder-achievements')" class="btn-hover bg-[#D4AF37]/20 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#000B3D] px-4 py-2 rounded-full luxury-caption text-[9px] font-bold flex items-center gap-1">
+                                <i class="bx bx-plus"></i> Add Achievement
+                            </button>
+                        </div>
+                        <div id="founder-achievements" class="space-y-4">
+                            <!-- Dynamic achievement items rendered here -->
+                        </div>
                     </div>
                     <div class="flex gap-4 pt-4">
                         <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
@@ -281,15 +210,34 @@
                     <input type="hidden" id="face-id">
                     <div>
                         <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Name</label>
-                        <input type="text" id="face-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none">
+                        <input type="text" id="face-name" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Team Member Name">
                     </div>
                     <div>
-                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Role</label>
-                        <input type="text" id="face-role" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Team Member">
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Role / Designation</label>
+                        <input type="text" id="face-role" required class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none" placeholder="e.g., Creative Strategist">
                     </div>
                     <div>
                         <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Image</label>
                         <input type="file" id="face-image" accept="image/*" class="w-full text-white/60 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:bg-[#D4AF37]/20 file:text-[#D4AF37] hover:file:bg-[#D4AF37]/30">
+                        <div id="face-image-preview" class="mt-3 hidden items-center gap-3">
+                            <img src="" alt="Preview" class="w-12 h-12 rounded-full object-cover border border-[#D4AF37]/30">
+                            <span class="text-xs text-white/40">Current image preview</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em] block mb-3">Complete Bio / Description (Optional)</label>
+                        <textarea id="face-bio" rows="4" class="input-field w-full glass border border-white/10 rounded-[20px] p-5 bg-transparent text-white outline-none resize-y" placeholder="Enter complete bio or overview..."></textarea>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <label class="text-white/60 luxury-caption text-[10px] uppercase tracking-[0.15em]">Achievements / Bullet Points (Optional)</label>
+                            <button type="button" onclick="addAchievementRow('face-achievements')" class="btn-hover bg-[#D4AF37]/20 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#000B3D] px-4 py-2 rounded-full luxury-caption text-[9px] font-bold flex items-center gap-1">
+                                <i class="bx bx-plus"></i> Add Achievement
+                            </button>
+                        </div>
+                        <div id="face-achievements" class="space-y-4">
+                            <!-- Dynamic achievement items rendered here -->
+                        </div>
                     </div>
                     <div class="flex gap-4 pt-4">
                         <button type="button" onclick="closeModal()" class="flex-1 btn-hover glass border border-white/10 px-8 py-4 rounded-[20px] luxury-caption text-[10px] font-bold text-white/60 transition-all">Cancel</button>
